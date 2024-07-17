@@ -1,31 +1,23 @@
+import { NavigationContainer } from "@react-navigation/native";
+import { Provider } from "react-redux";
+import store from "./features/shared/rtk-store/store";
+import MushroomsFinderScreen from "./features/mushrooms-finder/components/MushroomsFinderScreen";
+import HomeScreen from "./features/home/components/HomeScreen";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import { getLocation } from "./features/shared/utilities/getLocation";
-import { fetchFile } from "./features/shared/utilities/fetchFile";
+
+const Drawer = createDrawerNavigator();
 
 export default function App() {
-  getLocation().then((location) =>
-    fetchFile(
-      [location.coords.latitude, location.coords.longitude],
-      "mushrooms",
-      false,
-      5
-    )
-  );
-
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <NavigationContainer>
+        <StatusBar style="auto" />
+        <Drawer.Navigator initialRouteName="Home">
+          <Drawer.Screen name="Home" component={HomeScreen} />
+          <Drawer.Screen name="Mushrooms" component={MushroomsFinderScreen} />
+        </Drawer.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
