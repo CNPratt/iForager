@@ -1,8 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "../../rtk-slices/counterReducer";
+import configReducer from "../rtk-slices/configSlice";
+import { observationsApi } from "../api-slices/observationsApi";
 
 export default configureStore({
   reducer: {
-    counter: counterReducer,
+    config: configReducer,
+    [observationsApi.reducerPath]: observationsApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(observationsApi.middleware),
 });
