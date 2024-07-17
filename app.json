@@ -12,6 +12,9 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "This app uses the location to show where you are on the map."
+      },
       "supportsTablet": true
     },
     "android": {
