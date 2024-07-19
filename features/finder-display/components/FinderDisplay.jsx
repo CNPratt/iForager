@@ -1,11 +1,18 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useFetchObservationsQuery } from "../../shared/api-slices/observationsApi";
 import { useSelector } from "react-redux";
-import { FlatList } from "react-native-gesture-handler";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import MapMarkers from "./MapMarkers";
+import FinderDisplayFlatList from "./FinderDisplayFlatList";
+import FinderDisplayMap from "./FinderDisplayMap";
+import { useForm, useWatch } from "react-hook-form";
+import { useState } from "react";
+
+const distMethod = (a, b) => (a.trueDistance > b.trueDistance ? 1 : -1);
+const dateMethod = (a, b) => (a.createDate > b.createDate ? -1 : 1);
+const speciesMethod = (a, b) => (a.name > b.name ? 1 : -1);
 
 const FinderDisplay = ({ type }) => {
+  const [selectedId, setSelectedId] = useState(null);
+
   const location = useSelector((state) => state.config.location);
 
   const { data, error, isLoading } = useFetchObservationsQuery({
@@ -15,62 +22,82 @@ const FinderDisplay = ({ type }) => {
     radius: 20,
   });
 
-  const listData = data || [];
+  const form = useForm({
+    defaultValues: {
+      sortBy: "distance",
+      speciesName: "all",
+    },
+  });
+
+  const [sortByValue, speciesNameValue] = useWatch({
+    control: form.control,
+    name: ["sortBy", "speciesName"],
+  });
+
+  function sortAndFilterData(data, sortByValue, speciesNameValue) {
+    let sortedData = [...data];
+
+    switch (sortByValue) {
+      case "distance":
+        sortedData.sort(distMethod);
+        break;
+      case "date":
+        sortedData.sort(dateMethod);
+        break;
+      case "species":
+        sortedData.sort(speciesMethod);
+        break;
+      default:
+        break;
+    }
+
+    if (speciesNameValue !== "all") {
+      sortedData = sortedData.filter((observation) => {
+        return observation.name === speciesNameValue;
+      });
+    }
+
+    return sortedData;
+  }
+
+  const rawListData = data ? [...data] : [];
+
+  const unsortedListData = rawListData.map((observation) => {
+    const newObservation = {
+      ...observation,
+      handlePress: () => {
+        setSelectedId(observation.trueID);
+      },
+      isSelected: observation.trueID === selectedId,
+    };
+
+    return newObservation;
+  });
+
+  let sortedListData = sortAndFilterData(
+    unsortedListData,
+    sortByValue,
+    speciesNameValue
+  );
 
   return (
     <>
       <View style={styles.container}>
-        <MapView
-          // Must switch to development build for this to work
-          // provider={PROVIDER_GOOGLE}
-          style={{ flex: 1 }}
-          initialRegion={{
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-        >
-          <Marker
-            title="Home"
-            coordinate={{
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude,
-            }}
-            pinColor="brown"
-          />
-          <MapMarkers items={listData} />
-        </MapView>
-        <FlatList
-          style={{ flex: 1 }}
-          data={listData}
-          renderItem={FinderDisplayItem}
-          keyExtractor={(item) => item.trueID}
+        <FinderDisplayMap
+          listData={sortedListData}
+          location={location}
+          selectedId={selectedId}
+          setSelectedId={setSelectedId}
+        />
+        <FinderDisplayFlatList
+          form={form}
+          sortedListData={sortedListData}
+          unsortedListData={unsortedListData}
+          selectedId={selectedId}
+          setSelectedId={setSelectedId}
         />
       </View>
     </>
-  );
-};
-
-const FinderDisplayItem = ({ item }) => {
-  return (
-    <View style={styles.item}>
-      <Image
-        source={{
-          uri: item.image.replace("square", "small"),
-        }}
-        style={styles.cardImg}
-      />
-      {Object.keys(item).map((key) => {
-        return (
-          <View key={key}>
-            <Text>
-              {key}: {item[key]}
-            </Text>
-          </View>
-        );
-      })}
-    </View>
   );
 };
 
@@ -78,17 +105,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-  },
-  item: {
-    borderWidth: 1,
-    borderColor: "black",
-    margin: 10,
-    padding: 10,
-  },
-  cardImg: {
-    height: 100,
-    width: 100,
-    alignContent: "flex-start",
   },
 });
 
