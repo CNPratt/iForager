@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { idObject } from "../data/idObject";
 import { milesToKM } from "../utilities/distanceFunctions";
 import { transformObservation } from "../utilities/transformObservation";
 
@@ -8,9 +7,8 @@ export const observationsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "https://api.inaturalist.org/v1" }),
   endpoints: (builder) => ({
     fetchObservations: builder.query({
-      query: ({ latlon, type, unfiltered, radius }) => {
+      query: ({ latlon, ids, unfiltered, radius }) => {
         let filterMode = unfiltered ? "" : "&quality_grade=research";
-        let ids = idObject[type] ? idObject[type].ids : type;
 
         const url = `/observations/?taxon_id=${ids}${filterMode}&captive=false&lat=${
           latlon[0]

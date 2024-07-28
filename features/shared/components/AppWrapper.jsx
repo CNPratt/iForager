@@ -12,6 +12,8 @@ import { setLocation } from "../rtk-slices/configSlice";
 import FruitFinderScreen from "../../basic-finders/components/FruitFinderScreen";
 import BerriesFinderScreen from "../../basic-finders/components/BerriesFinderScreen";
 import AlliumsFinderScreen from "../../basic-finders/components/AlliumsFinderScreen";
+import CustomMapMakerScreen from "../../custom-map-maker/components/CustomMapMakerScreen";
+import FinderDisplay from "../../finder-display/components/FinderDisplay";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -19,6 +21,8 @@ const Drawer = createDrawerNavigator();
 
 const AppWrapper = (props) => {
   const [appIsReady, setAppIsReady] = useState(false);
+
+  const customMaps = useSelector((state) => state.userContent.customMaps);
 
   const dispatch = useDispatch();
 
@@ -68,6 +72,15 @@ const AppWrapper = (props) => {
           <Drawer.Screen name="Fruit" component={FruitFinderScreen} />
           <Drawer.Screen name="Berries" component={BerriesFinderScreen} />
           <Drawer.Screen name="Alliums" component={AlliumsFinderScreen} />
+          <Drawer.Screen
+            name="Custom Map Maker"
+            component={CustomMapMakerScreen}
+          />
+          {customMaps.map((map) => (
+            <Drawer.Screen key={map.title} name={map.title}>
+              {() => <FinderDisplay ids={map.ids} title={map.title} />}
+            </Drawer.Screen>
+          ))}
         </Drawer.Navigator>
       </View>
     </NavigationContainer>

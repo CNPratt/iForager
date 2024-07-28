@@ -10,14 +10,14 @@ const distMethod = (a, b) => (a.trueDistance > b.trueDistance ? 1 : -1);
 const dateMethod = (a, b) => (a.createDate > b.createDate ? -1 : 1);
 const speciesMethod = (a, b) => (a.name > b.name ? 1 : -1);
 
-const FinderDisplay = ({ type }) => {
+const FinderDisplay = ({ ids }) => {
   const [selectedId, setSelectedId] = useState(null);
 
   const location = useSelector((state) => state.config.location);
 
   const { data, error, isLoading } = useFetchObservationsQuery({
     latlon: [location.coords.latitude, location.coords.longitude],
-    type: type,
+    ids: ids,
     unfiltered: false,
     radius: 20,
   });
