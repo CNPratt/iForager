@@ -6,7 +6,7 @@ import FinderDisplayMap from "./FinderDisplayMap";
 import { useForm, useWatch } from "react-hook-form";
 import { useState } from "react";
 
-const distMethod = (a, b) => (a.trueDistance > b.trueDistance ? 1 : -1);
+const distMethod = (a, b) => (a.distance > b.distance ? 1 : -1);
 const dateMethod = (a, b) => (a.createDate > b.createDate ? -1 : 1);
 const speciesMethod = (a, b) => (a.species > b.species ? 1 : -1);
 
