@@ -2,6 +2,8 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import SortBySelect from "./sort-inputs/SortBySelect";
 import SpeciesSelect from "./sort-inputs/SpeciesSelect";
+import { BasicModal } from "../../shared/components/BasicModal";
+import { useRef } from "react";
 
 const FinderDisplayFlatList = ({ unsortedListData, sortedListData, form }) => {
   return (
@@ -22,8 +24,6 @@ const FinderDisplayItem = ({ item }) => {
   const conditionalBorderStyle = item.isSelected
     ? { borderColor: "gray", backgroundColor: "lightgray" }
     : {};
-
-  console.log(item.isSelected);
 
   return (
     <TouchableOpacity onPress={item.handlePress}>

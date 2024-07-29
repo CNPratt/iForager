@@ -1,67 +1,71 @@
-import CustomSelectInput from "./CustomSelectInput";
 import { Controller } from "react-hook-form";
-import { View } from "react-native";
-import React from "react";
+import { View, Text } from "react-native";
+import React, { useRef } from "react";
+import { Button } from "react-native-paper";
+import { BasicModal } from "../../BasicModal";
 
-const SelectInputWrapper = (props) => {
-  const {
-    form,
-    fieldName,
-    label,
-    rules,
-    defaultValue,
-    omitError,
-    options,
-    disabled,
-    defaultOptionText,
-    customBoxLabelComponent,
-    customSheetLabelComponent,
-    accessibilityLabel,
-    iconLeft,
-    onPressIconLeft,
-    iconRight,
-    onPressIconRight,
-    onChange: onChangeCallback = () => {},
-  } = props;
-
+const SelectInputWrapper = ({
+  form,
+  fieldName,
+  label,
+  rules,
+  defaultValue,
+  options,
+  ...rest
+}) => {
   const { control, formState } = form;
   const { errors } = formState;
   const hasError = errors?.[fieldName];
+
+  const modalRef = useRef(null);
 
   return (
     <View>
       <Controller
         control={control}
-        render={({ field: { onChange, value, onBlur, name } }) => {
+        render={({
+          field: { onChange, value, onBlur, name },
+          fieldState: { error },
+        }) => {
+          const selectedOption = options.find(
+            (option) => option.value === value
+          );
+
           return (
-            <CustomSelectInput
-              fieldName={fieldName}
-              label={label}
-              value={value}
-              options={options}
-              fieldOnChange={onChange}
-              onChangeCallback={onChangeCallback}
-              onBlur={onBlur}
-              title={label}
-              disabled={disabled}
-              defaultOptionText={defaultOptionText}
-              customBoxLabelComponent={customBoxLabelComponent}
-              customSheetLabelComponent={customSheetLabelComponent}
-              accessibilityLabel={accessibilityLabel}
-              accessibilityHint={label ? `Input for ${label}` : ""}
-              iconLeft={iconLeft}
-              onPressIconLeft={onPressIconLeft}
-              iconRight={iconRight}
-              onPressIconRight={onPressIconRight}
-              error={hasError}
-            />
+            <>
+              <BasicModal
+                ref={modalRef}
+                onClose={onBlur}
+                modalContentStyle={{ width: "100%" }}
+              >
+                <Text>{"Select an option"}</Text>
+                {options.map((option) => (
+                  <Button
+                    style={{ width: "100%" }}
+                    key={option.value}
+                    onPress={() => {
+                      onChange(option.value);
+                      modalRef.current.close();
+                    }}
+                  >
+                    {option.label}
+                  </Button>
+                ))}
+              </BasicModal>
+              <Text>{label}</Text>
+              <Button mode="contained" onPress={() => modalRef.current.open()}>
+                {selectedOption ? selectedOption.label : "Select an option"}
+              </Button>
+              {hasError && (
+                <Text style={{ color: "red" }}>{error.message}</Text>
+              )}
+            </>
           );
         }}
         name={fieldName}
         rules={rules}
         defaultValue={defaultValue}
       />
-      {/* Error state here */}
     </View>
   );
 };

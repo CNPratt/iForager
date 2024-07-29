@@ -10,7 +10,6 @@ export const userContentSlice = createSlice({
       state.customMaps.push(action.payload);
     },
     deleteMap: (state, action) => {
-      console.log(action.payload);
       state.customMaps = state.customMaps.filter(
         (map) => map.title !== action.payload
       );
