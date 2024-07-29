@@ -1,8 +1,9 @@
 import { Controller } from "react-hook-form";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React, { useRef } from "react";
-import { Button } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 import { BasicModal } from "../../BasicModal";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 
 const SelectInputWrapper = ({
   form,
@@ -11,6 +12,8 @@ const SelectInputWrapper = ({
   rules,
   defaultValue,
   options,
+  modalContainerStyle = {},
+  modalContentStyle = {},
   ...rest
 }) => {
   const { control, formState } = form;
@@ -36,21 +39,34 @@ const SelectInputWrapper = ({
               <BasicModal
                 ref={modalRef}
                 onClose={onBlur}
-                modalContentStyle={{ width: "100%" }}
+                modalContentStyle={{ width: "100%", ...modalContentStyle }}
+                modalContainerStyle={{ ...modalContainerStyle }}
               >
-                <Text>{"Select an option"}</Text>
-                {options.map((option) => (
-                  <Button
-                    style={{ width: "100%" }}
-                    key={option.value}
-                    onPress={() => {
-                      onChange(option.value);
-                      modalRef.current.close();
-                    }}
-                  >
-                    {option.label}
-                  </Button>
-                ))}
+                <Text>{label}</Text>
+                <ScrollView style={{ width: "100%" }}>
+                  {options.map((option) => {
+                    const isSelected = option.value === value;
+
+                    return (
+                      <TouchableOpacity
+                        style={{
+                          minWidth: "100%",
+                          padding: 10,
+                          backgroundColor: isSelected ? "lightgray" : "white",
+                        }}
+                        key={option.value}
+                        onPress={() => {
+                          onChange(option.value);
+                          modalRef.current.close();
+                        }}
+                      >
+                        <Text style={{ textAlign: "center" }}>
+                          {option.label}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </ScrollView>
               </BasicModal>
               <Text>{label}</Text>
               <Button mode="contained" onPress={() => modalRef.current.open()}>

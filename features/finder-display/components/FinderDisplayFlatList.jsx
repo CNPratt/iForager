@@ -2,14 +2,20 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import SortBySelect from "./sort-inputs/SortBySelect";
 import SpeciesSelect from "./sort-inputs/SpeciesSelect";
-import { BasicModal } from "../../shared/components/BasicModal";
-import { useRef } from "react";
 
 const FinderDisplayFlatList = ({ unsortedListData, sortedListData, form }) => {
   return (
     <>
-      <SortBySelect form={form} />
-      <SpeciesSelect form={form} unsortedListData={unsortedListData} />
+      <View
+        style={{ display: "flex", flexDirection: "row", marginHorizontal: 10 }}
+      >
+        <View style={{ width: "50%", paddingRight: 5 }}>
+          <SortBySelect form={form} />
+        </View>
+        <View style={{ width: "50%", paddingLeft: 5 }}>
+          <SpeciesSelect form={form} unsortedListData={unsortedListData} />
+        </View>
+      </View>
       <FlatList
         style={{ flex: 1 }}
         data={sortedListData}

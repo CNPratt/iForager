@@ -8,7 +8,7 @@ import { useState } from "react";
 
 const distMethod = (a, b) => (a.trueDistance > b.trueDistance ? 1 : -1);
 const dateMethod = (a, b) => (a.createDate > b.createDate ? -1 : 1);
-const speciesMethod = (a, b) => (a.name > b.name ? 1 : -1);
+const speciesMethod = (a, b) => (a.species > b.species ? 1 : -1);
 
 const FinderDisplay = ({ ids }) => {
   const [selectedId, setSelectedId] = useState(null);
@@ -53,7 +53,7 @@ const FinderDisplay = ({ ids }) => {
 
     if (speciesNameValue !== "all") {
       sortedData = sortedData.filter((observation) => {
-        return observation.name === speciesNameValue;
+        return observation.species === speciesNameValue;
       });
     }
 

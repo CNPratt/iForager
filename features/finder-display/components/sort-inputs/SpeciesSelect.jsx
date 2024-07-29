@@ -6,10 +6,10 @@ const SpeciesSelect = ({ form, unsortedListData }) => {
   if (unsortedListData) {
     unsortedListData.forEach((observation) => {
       if (
-        observation.name &&
-        speciesFullnameArray.indexOf(observation.name) === -1
+        observation.species &&
+        speciesFullnameArray.indexOf(observation.species) === -1
       ) {
-        speciesFullnameArray.push(observation.name);
+        speciesFullnameArray.push(observation.species);
       }
     });
   }
