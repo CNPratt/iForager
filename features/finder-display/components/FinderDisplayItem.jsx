@@ -24,11 +24,21 @@ export const FinderDisplayItem = ({ item }) => {
           style={styles.cardImg}
         />
         <View style={styles.infoContainer}>
-          <Text style={styles.name}>{item.name}</Text>
-          <Text style={styles.species}>{item.species}</Text>
-          <Text style={styles.location}>{item.genLocation}</Text>
-          <Text style={styles.distance}>Distance: {formattedDistance} km</Text>
-          <Text style={styles.date}>Date: {item.createDate}</Text>
+          <Text style={styles.name} numberOfLines={1} ellipsizeMode="tail">
+            {item.name}
+          </Text>
+          <Text style={styles.species} numberOfLines={1} ellipsizeMode="tail">
+            {item.species}
+          </Text>
+          <Text style={styles.location} numberOfLines={1} ellipsizeMode="tail">
+            {item.genLocation}
+          </Text>
+          <Text style={styles.distance} numberOfLines={1} ellipsizeMode="tail">
+            Distance: {formattedDistance} km
+          </Text>
+          <Text style={styles.date} numberOfLines={1} ellipsizeMode="tail">
+            Date: {item.createDate}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -42,6 +52,7 @@ const styles = StyleSheet.create({
     margin: 10,
     flexDirection: "row",
     alignItems: "center",
+    borderRadius: 4,
   },
   cardImg: {
     height: 100,
@@ -51,6 +62,9 @@ const styles = StyleSheet.create({
   infoContainer: {
     flex: 1,
     height: "100%",
+    paddingVertical: 5,
+    paddingRight: 5,
+    overflow: "hidden",
   },
   name: {
     fontSize: 14,

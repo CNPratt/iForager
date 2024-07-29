@@ -25,7 +25,7 @@ const FinderDisplayFlatList = ({ unsortedListData, sortedListData, form }) => {
       <FlatList
         style={{ flex: 1 }}
         data={sortedListData}
-        renderItem={({ item }) => <FinderDisplayItem item={item} />}
+        renderItem={FinderDisplayItem}
         keyExtractor={(item) => item.id}
       />
     </>

@@ -43,7 +43,7 @@ const SelectInputWrapper = ({
                 modalContainerStyle={{ ...modalContainerStyle }}
               >
                 <Text>{label}</Text>
-                <ScrollView style={{ width: "100%" }}>
+                <ScrollView style={{ width: "100%", padding: 10 }}>
                   {options.map((option) => {
                     const isSelected = option.value === value;
 

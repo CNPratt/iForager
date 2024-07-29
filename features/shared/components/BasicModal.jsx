@@ -45,10 +45,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
+    height: "100%",
   },
   modalContent: {
     backgroundColor: "white",
-    padding: 20,
     borderRadius: 10,
     alignItems: "center",
   },
