@@ -66,9 +66,9 @@ const FinderDisplay = ({ ids }) => {
     const newObservation = {
       ...observation,
       handlePress: () => {
-        setSelectedId(observation.trueID);
+        setSelectedId(observation.id);
       },
-      isSelected: observation.trueID === selectedId,
+      isSelected: observation.id === selectedId,
     };
 
     return newObservation;
