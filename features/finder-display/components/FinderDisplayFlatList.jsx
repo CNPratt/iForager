@@ -4,8 +4,9 @@ import { FlatList } from "react-native-gesture-handler";
 import SortBySelect from "./sort-inputs/SortBySelect";
 import SpeciesSelect from "./sort-inputs/SpeciesSelect";
 import { FinderDisplayItem } from "./FinderDisplayItem";
+import { ActivityIndicator } from "react-native-paper";
 
-const FinderDisplayFlatList = forwardRef(({ unsortedListData, sortedListData, form }, ref) => {
+const FinderDisplayFlatList = forwardRef(({ unsortedListData, sortedListData, form, isFetching }, ref) => {
   
   return (
     <View style={{ flex: 1 }}>
@@ -24,14 +25,22 @@ const FinderDisplayFlatList = forwardRef(({ unsortedListData, sortedListData, fo
           <SpeciesSelect form={form} unsortedListData={unsortedListData} />
         </View>
       </View>
-      <FlatList
+      {isFetching && (
+        <ActivityIndicator
+          animating={true}
+          color="#000"
+          size="large"
+          style={{ flex: 1, justifyContent: "center" }}
+        />
+      )}
+      {!isFetching && <FlatList
         ref={ref}
         style={{ flex: 1, }}
         data={sortedListData}
-        renderItem={FinderDisplayItem}
+        renderItem={(props) => <FinderDisplayItem {...props} />}
         keyExtractor={(item) => item.id}
         scrollIndicatorInsets={{ right: 1 }}
-      />
+      />}
     </View>
   );
 });

@@ -1,8 +1,11 @@
 import { StyleSheet, View, Image } from "react-native";
-import { Text } from "react-native-paper";
+import { ActivityIndicator, Text } from "react-native-paper";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useEffect, useState } from "react";
 
 export const FinderDisplayItem = ({ item }) => {
+  const [imageLoading, setImageLoading] = useState(true);
+
   const conditionalBorderStyle = item.isSelected
     ? { borderColor: "gray", backgroundColor: "lightgray" }
     : {};
@@ -17,12 +20,25 @@ export const FinderDisplayItem = ({ item }) => {
   return (
     <TouchableOpacity onPress={item.handlePress}>
       <View style={[styles.item, conditionalBorderStyle]}>
-        <Image
-          source={{
-            uri: item.image.replace("square", "small"),
-          }}
-          style={styles.cardImg}
-        />
+      <View style={styles.imageContainer}>
+          {imageLoading && (
+            <ActivityIndicator
+              animating={true}
+              color="#000"
+              size="small"
+              style={styles.loadingIndicator}
+            />
+          )}
+          <Image
+            source={{
+              uri: item.image.replace("square", "small"),
+            }}
+            style={styles.cardImg}
+            onLoadStart={() => setImageLoading(true)}
+            onLoad={() => setImageLoading(false)}
+            onError={() => setImageLoading(false)}
+          />
+        </View>
         <View style={styles.infoContainer}>
           <Text style={styles.name} numberOfLines={1} ellipsizeMode="tail">
             {item.name}
@@ -58,6 +74,7 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     marginRight: 10,
+    position: "absolute"
   },
   infoContainer: {
     flex: 1,
@@ -65,6 +82,13 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingRight: 5,
     overflow: "hidden",
+  },
+  imageContainer: {
+    height: 100,
+    width: 100,
+    marginRight: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
   name: {
     fontSize: 14,

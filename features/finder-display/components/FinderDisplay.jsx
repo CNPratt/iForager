@@ -18,7 +18,7 @@ const FinderDisplay = ({ ids }) => {
   const mapRef = useRef(null);
   const flatListRef = useRef(null);
 
-  const { data, error, isLoading } = useFetchObservationsQuery({
+  const { data, error, isLoading, isFetching } = useFetchObservationsQuery({
     latlon: [location.coords.latitude, location.coords.longitude],
     ids: ids,
     unfiltered: false,
@@ -126,6 +126,7 @@ const FinderDisplay = ({ ids }) => {
           unsortedListData={unsortedListData}
           selectedId={selectedId}
           setSelectedId={setSelectedId}
+          isFetching={isFetching}
         />
       </View>
     </>
