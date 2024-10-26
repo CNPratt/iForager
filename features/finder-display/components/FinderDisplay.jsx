@@ -1,10 +1,10 @@
-import { StyleSheet, View} from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useFetchObservationsQuery } from "../../shared/api-slices/observationsApi";
 import { useSelector } from "react-redux";
 import FinderDisplayFlatList from "./FinderDisplayFlatList";
 import FinderDisplayMap from "./FinderDisplayMap";
 import { useForm, useWatch } from "react-hook-form";
-import { useState, useEffect, useRef  } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const distMethod = (a, b) => (a.distance > b.distance ? 1 : -1);
 const dateMethod = (a, b) => (a.createDate > b.createDate ? -1 : 1);
@@ -85,17 +85,15 @@ const FinderDisplay = ({ ids }) => {
 
   useEffect(() => {
     if (selectedId) {
-      // Scroll to the selected item in the flatlist
-      // or animate to the selected marker on the map
-      const selectedItem = sortedListData.find((item) => item.id === selectedId);
+      const selectedItem = sortedListData.find(
+        (item) => item.id === selectedId
+      );
 
       if (selectedItem) {
         if (flatListRef.current) {
           const index = sortedListData.indexOf(selectedItem);
 
-          console.log("scrolling to index", index);
-
-          flatListRef.current.scrollToIndex({index: index, animated: true});
+          flatListRef.current.scrollToIndex({ index: index, animated: true });
         }
         if (mapRef.current) {
           mapRef.current.animateToRegion({

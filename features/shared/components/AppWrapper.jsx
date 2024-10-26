@@ -13,7 +13,9 @@ import FruitFinderScreen from "../../basic-finders/components/FruitFinderScreen"
 import BerriesFinderScreen from "../../basic-finders/components/BerriesFinderScreen";
 import AlliumsFinderScreen from "../../basic-finders/components/AlliumsFinderScreen";
 import CustomMapMakerScreen from "../../custom-map-maker/components/CustomMapMakerScreen";
+import CustomFinderScreen from "../../basic-finders/components/CustomFinderScreen";
 import FinderDisplay from "../../finder-display/components/FinderDisplay";
+import { Text } from "react-native-paper";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -29,10 +31,6 @@ const AppWrapper = (props) => {
   useEffect(() => {
     async function prepare() {
       try {
-        // Artificially delay for two seconds to simulate a slow loading
-        // experience. Please remove this if you copy and paste the code!
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-
         const result = await getLocation();
 
         dispatch(setLocation(result));

@@ -20,7 +20,7 @@ export const FinderDisplayItem = ({ item }) => {
   return (
     <TouchableOpacity onPress={item.handlePress}>
       <View style={[styles.item, conditionalBorderStyle]}>
-      <View style={styles.imageContainer}>
+        <View style={styles.imageContainer}>
           {imageLoading && (
             <ActivityIndicator
               animating={true}
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     marginRight: 10,
-    position: "absolute"
+    position: "absolute",
   },
   infoContainer: {
     flex: 1,

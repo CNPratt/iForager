@@ -14,7 +14,7 @@ export const CustomMapCard = ({
   };
 
   const handleNavigate = () => {
-    // nav.navigate("MapDetail", { title, ids });
+    nav.navigate(title);
   };
 
   return (

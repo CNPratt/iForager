@@ -78,7 +78,11 @@ const CustomMapMakerScreen = ({ navigation }) => {
   };
 
   return (
-    <View>
+    <View
+      style={{
+        padding: 10,
+      }}
+    >
       <Text>New Map Name</Text>
       <TextInputWrapper
         control={control}
@@ -99,7 +103,11 @@ const CustomMapMakerScreen = ({ navigation }) => {
         name="searchText"
         label="Enter search here"
       />
-      <View>
+      <View
+        style={{
+          gap: 10,
+        }}
+      >
         <Button mode="contained" onPress={handleSubmit(handleCreateMap)}>
           Create Map
         </Button>
@@ -111,7 +119,7 @@ const CustomMapMakerScreen = ({ navigation }) => {
         </Button>
       </View>
       {mode === "create" ? (
-        <ScrollView>
+        <ScrollView style={{ height: "100%" }}>
           {searchResults.map((result) => (
             <SearchResult
               key={result.taxonId}
@@ -126,7 +134,7 @@ const CustomMapMakerScreen = ({ navigation }) => {
           ))}
         </ScrollView>
       ) : (
-        <ScrollView>
+        <ScrollView style={{ height: "100%" }}>
           {customMapsArray.map((map) => (
             <CustomMapCard
               key={map.title}
