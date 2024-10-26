@@ -15,7 +15,8 @@
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "This app uses the location to show where you are on the map."
       },
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.cpratt.iforager"
     },
     "android": {
       "adaptiveIcon": {
