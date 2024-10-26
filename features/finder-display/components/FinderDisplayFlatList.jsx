@@ -26,10 +26,11 @@ const FinderDisplayFlatList = forwardRef(({ unsortedListData, sortedListData, fo
       </View>
       <FlatList
         ref={ref}
-        style={{ flex: 1 }}
+        style={{ flex: 1, }}
         data={sortedListData}
         renderItem={FinderDisplayItem}
         keyExtractor={(item) => item.id}
+        scrollIndicatorInsets={{ right: 1 }}
       />
     </View>
   );
