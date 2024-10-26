@@ -1,14 +1,17 @@
+import React, { forwardRef } from "react";
 import MapView, { Marker } from "react-native-maps";
 import MapMarkers from "./MapMarkers";
+import { PROVIDER_GOOGLE } from "react-native-maps";
 
-const FinderDisplayMap = ({
+const FinderDisplayMap = forwardRef(({
   listData,
   location,
   selectedId,
   setSelectedId,
-}) => {
+}, ref) => {
   return (
     <MapView
+      ref={ref}
       // Must switch to development build for this to work
       // provider={PROVIDER_GOOGLE}
       style={{ flex: 1 }}
@@ -34,6 +37,6 @@ const FinderDisplayMap = ({
       />
     </MapView>
   );
-};
+});
 
 export default FinderDisplayMap;

@@ -1,12 +1,14 @@
+import React, { forwardRef, useEffect, useRef } from "react";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import SortBySelect from "./sort-inputs/SortBySelect";
 import SpeciesSelect from "./sort-inputs/SpeciesSelect";
 import { FinderDisplayItem } from "./FinderDisplayItem";
 
-const FinderDisplayFlatList = ({ unsortedListData, sortedListData, form }) => {
+const FinderDisplayFlatList = forwardRef(({ unsortedListData, sortedListData, form }, ref) => {
+  
   return (
-    <>
+    <View style={{ flex: 1 }}>
       <View
         style={{
           display: "flex",
@@ -23,13 +25,14 @@ const FinderDisplayFlatList = ({ unsortedListData, sortedListData, form }) => {
         </View>
       </View>
       <FlatList
+        ref={ref}
         style={{ flex: 1 }}
         data={sortedListData}
         renderItem={FinderDisplayItem}
         keyExtractor={(item) => item.id}
       />
-    </>
+    </View>
   );
-};
+});
 
 export default FinderDisplayFlatList;
