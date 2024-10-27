@@ -14,9 +14,12 @@ export const userContentSlice = createSlice({
         (map) => map.title !== action.payload
       );
     },
+    setMaps: (state, action) => {
+      state.customMaps = action.payload;
+    },
   },
 });
 
-export const { createMap, deleteMap } = userContentSlice.actions;
+export const { createMap, deleteMap, setMaps } = userContentSlice.actions;
 
 export default userContentReducer = userContentSlice.reducer;

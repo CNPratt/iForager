@@ -6,8 +6,16 @@ import { createStackNavigator } from "@react-navigation/stack";
 import OpenDrawerIcon from "../../shared/components/OpenDrawerIcon";
 import { IconButton } from "react-native-paper";
 import GoBackIcon from "../../shared/components/GoBackicon";
+import CustomMapsManager from "./CustomMapsManager";
 
 const Stack = createStackNavigator();
+
+const screenOptions = (props) => {
+  return {
+    headerRight: () => <OpenDrawerIcon {...props} />,
+    headerLeft: () => <GoBackIcon {...props} />,
+  };
+};
 
 const CustomMapsStack = (props) => {
   return (
@@ -23,12 +31,12 @@ const CustomMapsStack = (props) => {
       <Stack.Screen
         name="Custom Map Maker"
         component={CustomMapMakerScreen}
-        options={(props) => {
-          return {
-            headerRight: () => <OpenDrawerIcon {...props} />,
-            headerLeft: () => <GoBackIcon {...props} />,
-          };
-        }}
+        options={screenOptions}
+      />
+      <Stack.Screen
+        name="Custom Maps Manager"
+        component={CustomMapsManager}
+        options={screenOptions}
       />
     </Stack.Navigator>
   );

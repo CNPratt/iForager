@@ -6,8 +6,7 @@ export const CustomMapCard = ({
   title,
   ids,
   nav,
-  addCustomMap,
-  deleteCustomMap,
+  deleteCustomMap = () => {},
 }) => {
   const handleDelete = () => {
     deleteCustomMap();

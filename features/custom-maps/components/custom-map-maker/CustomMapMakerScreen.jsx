@@ -135,11 +135,10 @@ const CustomMapMakerScreen = ({ navigation }) => {
         </ScrollView>
       </BasicModal>
       <View style={styles.pageContainer}>
-        <Text>New Map Name</Text>
         <TextInputWrapper
           form={form}
           name="newMapName"
-          label="Custom Map Name"
+          label="New Custom Map Name"
           rules={{ required: "Map name is required" }}
         />
         <View style={styles.buttonView}>
@@ -173,20 +172,6 @@ const CustomMapMakerScreen = ({ navigation }) => {
             />
           ))}
         </ScrollView>
-        {/* <ScrollView style={{ height: "100%" }}>
-          {customMapsArray.map((map) => (
-            <CustomMapCard
-              key={map.title}
-              title={map.title}
-              ids={map.ids}
-              nav={navigation}
-              addCustomMap={createMap}
-              deleteCustomMap={() => {
-                dispatch(deleteMap(map.title));
-              }}
-            />
-          ))}
-        </ScrollView> */}
       </View>
     </>
   );

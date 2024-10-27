@@ -29,7 +29,14 @@ const CustomMapsMenu = (props) => {
         >
           Create New Map
         </Button>
-        <Button mode="contained">Manage Custom Maps</Button>
+        <Button
+          mode="contained"
+          onPress={() => {
+            navigation.navigate("Custom Maps Manager");
+          }}
+        >
+          Manage Custom Maps
+        </Button>
       </View>
     </View>
   );

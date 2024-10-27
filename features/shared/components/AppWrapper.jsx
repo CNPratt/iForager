@@ -17,6 +17,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Icon, IconButton, Text } from "react-native-paper";
 import CustomMapsStack from "../../custom-maps/components/CustomMapsStack";
 import OpenDrawerIcon from "./OpenDrawerIcon";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { setMaps } from "../rtk-slices/userContent";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -30,9 +32,19 @@ const AppWrapper = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const loadMaps = async () => {
+      const maps = await AsyncStorage.getItem("customMaps");
+
+      if (maps) {
+        dispatch(setMaps(JSON.parse(maps)));
+      }
+    };
+
     async function prepare() {
       try {
         const result = await getLocation();
+
+        await loadMaps();
 
         dispatch(setLocation(result));
       } catch (e) {
