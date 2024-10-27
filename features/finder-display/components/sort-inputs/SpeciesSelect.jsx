@@ -21,7 +21,7 @@ const SpeciesSelect = ({ form, unsortedListData }) => {
   return (
     <SelectInputWrapper
       form={form}
-      fieldName="speciesName"
+      name="speciesName"
       label="Species Name"
       options={[{ value: "all", label: "All" }, ...options]}
     />

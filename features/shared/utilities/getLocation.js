@@ -11,8 +11,6 @@ export async function getLocation() {
     }
 
     location = await Location.getCurrentPositionAsync({});
-    // console.log(location.coords.latitude);
-    // console.log(location.coords.longitude);
   } catch (error) {
     console.error("An error occurred while trying to get the location:", error);
   }

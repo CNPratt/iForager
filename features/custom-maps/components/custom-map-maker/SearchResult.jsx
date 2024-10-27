@@ -13,7 +13,7 @@ const SearchResult = ({
   const isAdded = newMapIds.split(",").includes(taxonId.toString());
 
   return (
-    <Card style={{ margin: 10 }}>
+    <Card key={taxonId} style={{ marginVertical: 10 }}>
       <Card.Content>
         <Title>{commonName}</Title>
         <Paragraph>ID: {taxonId}</Paragraph>

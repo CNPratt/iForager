@@ -4,7 +4,7 @@ const SortBySelect = ({ form }) => {
   return (
     <SelectInputWrapper
       form={form}
-      fieldName="sortBy"
+      name="sortBy"
       label="Sort By"
       options={[
         { value: "distance", label: "Distance" },

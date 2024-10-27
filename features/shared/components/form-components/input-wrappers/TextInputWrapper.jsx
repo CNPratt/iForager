@@ -4,16 +4,21 @@ import { TextInput, Text } from "react-native-paper";
 import { Controller } from "react-hook-form";
 
 const TextInputWrapper = ({
-  control,
+  form,
   name,
   label,
   rules = {},
   defaultValue = "",
-  error,
+  containerStyles = {},
   ...textInputProps
 }) => {
+  const { control } = form;
+  const { errors } = form.formState;
+
+  const error = errors[name];
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyles]}>
       <Controller
         control={control}
         defaultValue={defaultValue}
@@ -30,7 +35,18 @@ const TextInputWrapper = ({
         name={name}
         rules={rules}
       />
-      {error?.message && <Text style={styles.errorText}>{error.message}</Text>}
+      {(error?.message && (
+        <Text style={styles.errorText}>{error.message}</Text>
+      )) || (
+        <Text
+          style={{
+            ...styles.errorText,
+            opacity: 0,
+          }}
+        >
+          Placeholder
+        </Text>
+      )}
     </View>
   );
 };

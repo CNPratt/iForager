@@ -1,13 +1,13 @@
 import { Controller } from "react-hook-form";
 import { View } from "react-native";
 import React, { useRef } from "react";
-import { Button, Text } from "react-native-paper";
+import { Button, IconButton, Text } from "react-native-paper";
 import { BasicModal } from "../../BasicModal";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 
 const SelectInputWrapper = ({
   form,
-  fieldName,
+  name,
   label,
   rules,
   defaultValue,
@@ -18,7 +18,7 @@ const SelectInputWrapper = ({
 }) => {
   const { control, formState } = form;
   const { errors } = formState;
-  const hasError = errors?.[fieldName];
+  const hasError = errors?.[name];
 
   const modalRef = useRef(null);
 
@@ -37,13 +37,13 @@ const SelectInputWrapper = ({
           return (
             <>
               <BasicModal
+                title={label}
                 ref={modalRef}
                 onClose={onBlur}
                 modalContentStyle={{ width: "100%", ...modalContentStyle }}
                 modalContainerStyle={{ ...modalContainerStyle }}
               >
-                <Text>{label}</Text>
-                <ScrollView style={{ width: "100%", padding: 10 }}>
+                <ScrollView style={{ width: "100%", paddingVertical: 10 }}>
                   {options.map((option) => {
                     const isSelected = option.value === value;
 
@@ -78,7 +78,7 @@ const SelectInputWrapper = ({
             </>
           );
         }}
-        name={fieldName}
+        name={name}
         rules={rules}
         defaultValue={defaultValue}
       />

@@ -1,10 +1,17 @@
 import React, { useState, forwardRef, useImperativeHandle } from "react";
-import { Modal, Portal, Button } from "react-native-paper";
+import { Modal, Portal, Button, IconButton, Text } from "react-native-paper";
 import { View, StyleSheet } from "react-native";
 
 export const BasicModal = forwardRef(
   (
-    { children, hideModal, modalContainerStyle, modalContentStyle, onClose },
+    {
+      title,
+      children,
+      hideModal,
+      modalContainerStyle,
+      modalContentStyle,
+      onClose,
+    },
     ref
   ) => {
     const [isVisible, setIsVisible] = useState(false);
@@ -26,11 +33,32 @@ export const BasicModal = forwardRef(
       <>
         <Portal>
           <Modal
+            dismissable={true}
             visible={isVisible}
             onDismiss={hideModalInternal}
             contentContainerStyle={[styles.modalContainer, modalContainerStyle]}
           >
             <View style={[styles.modalContent, modalContentStyle]}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  borderBottomWidth: 1,
+                  borderBottomColor: "lightgray",
+                }}
+              >
+                <IconButton icon="close" style={{ display: "none" }} />
+                <Text
+                  style={{
+                    textAlign: "center",
+                    margin: "auto",
+                  }}
+                >
+                  {title}
+                </Text>
+                <IconButton icon="close" onPress={hideModalInternal} />
+              </View>
               {children}
             </View>
           </Modal>
@@ -42,15 +70,13 @@ export const BasicModal = forwardRef(
 
 const styles = StyleSheet.create({
   modalContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-    height: "100%",
+    margin: 20,
+    borderRadius: 10,
   },
   modalContent: {
     backgroundColor: "white",
     borderRadius: 10,
-    alignItems: "center",
+    paddingHorizontal: 10,
   },
   button: {
     marginTop: 10,

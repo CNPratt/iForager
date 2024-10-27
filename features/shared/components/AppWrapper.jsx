@@ -12,10 +12,11 @@ import { setLocation } from "../rtk-slices/configSlice";
 import FruitFinderScreen from "../../basic-finders/components/FruitFinderScreen";
 import BerriesFinderScreen from "../../basic-finders/components/BerriesFinderScreen";
 import AlliumsFinderScreen from "../../basic-finders/components/AlliumsFinderScreen";
-import CustomMapMakerScreen from "../../custom-map-maker/components/CustomMapMakerScreen";
-import CustomFinderScreen from "../../basic-finders/components/CustomFinderScreen";
 import FinderDisplay from "../../finder-display/components/FinderDisplay";
-import { Text } from "react-native-paper";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Icon, IconButton, Text } from "react-native-paper";
+import CustomMapsStack from "../../custom-maps/components/CustomMapsStack";
+import OpenDrawerIcon from "./OpenDrawerIcon";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -64,15 +65,26 @@ const AppWrapper = (props) => {
     <NavigationContainer>
       <StatusBar style="auto" />
       <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-        <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Navigator
+          initialRouteName="Home"
+          screenOptions={(props) => {
+            return {
+              headerLeft: false,
+              headerRight: () => <OpenDrawerIcon {...props} />,
+            };
+          }}
+        >
           <Drawer.Screen name="Home" component={HomeScreen} />
           <Drawer.Screen name="Mushrooms" component={MushroomsFinderScreen} />
           <Drawer.Screen name="Fruit" component={FruitFinderScreen} />
           <Drawer.Screen name="Berries" component={BerriesFinderScreen} />
           <Drawer.Screen name="Alliums" component={AlliumsFinderScreen} />
           <Drawer.Screen
-            name="Custom Map Maker"
-            component={CustomMapMakerScreen}
+            name="Custom Maps"
+            component={CustomMapsStack}
+            options={{
+              headerShown: false,
+            }}
           />
           {customMaps.map((map) => (
             <Drawer.Screen key={map.title} name={map.title}>
