@@ -23,13 +23,14 @@ const FinderDisplayMap = forwardRef(
       <MapView
         ref={mapRef}
         // // Must switch to development build for this to work
-        // provider={PROVIDER_GOOGLE}
+        provider={PROVIDER_GOOGLE}
         style={{ flex: 1 }}
-        initialRegion={{
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+        initialCamera={{
+          center: {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+          },
+          zoom: 12,
         }}
       >
         <Marker

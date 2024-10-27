@@ -24,10 +24,6 @@ const MapMarker = ({ item, selectedMarker, onMarkerSelect }) => {
   const zIndex = isSelected ? 100 : 0;
 
   useEffect(() => {
-    // if (isSelected && ref.current) {
-    //   // ref.current.showCallout();
-    // }
-
     const sub = DeviceEventEmitter.addListener("onMarkerSelect", (id) => {
       if (id === item.id) {
         if (ref.current) {
