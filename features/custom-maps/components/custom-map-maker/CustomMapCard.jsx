@@ -1,15 +1,14 @@
 import React from "react";
 import { View } from "react-native";
 import { Card, Title, Paragraph, Button } from "react-native-paper";
+import { useDispatch } from "react-redux";
+import { deleteMap } from "../../../shared/rtk-slices/userContent";
 
-export const CustomMapCard = ({
-  title,
-  ids,
-  nav,
-  deleteCustomMap = () => {},
-}) => {
+export const CustomMapCard = ({ title, ids, nav }) => {
+  const dispatch = useDispatch();
+
   const handleDelete = () => {
-    deleteCustomMap();
+    dispatch(deleteMap(title));
   };
 
   const handleNavigate = () => {
