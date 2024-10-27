@@ -3,24 +3,11 @@ import configReducer from "../rtk-slices/configSlice";
 import userContentReducer from "../rtk-slices/userContent";
 import { taxaSearchApi } from "../api-slices/taxaSearchApi";
 import { observationsApi } from "../api-slices/observationsApi";
-import { thunk } from "redux-thunk";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createMap, deleteMap } from "../rtk-slices/userContent";
-
-// Middleware to sync with AsyncStorage
-const syncWithAsyncStorage = (store) => (next) => async (action) => {
-  const result = next(action);
-
-  if (action.type === createMap.type || action.type === deleteMap.type) {
-    const state = store.getState();
-    await AsyncStorage.setItem(
-      "customMaps",
-      JSON.stringify(state.userContent.customMaps)
-    );
-  }
-
-  return result;
-};
+import {
+  createMap,
+  deleteMap,
+  saveCustomMapsToAsyncStorage,
+} from "../rtk-slices/userContent";
 
 const store = configureStore({
   reducer: {
@@ -31,17 +18,21 @@ const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
-      .concat(thunk, syncWithAsyncStorage)
       .concat(observationsApi.middleware)
-      .concat(taxaSearchApi.middleware),
-});
+      .concat(taxaSearchApi.middleware)
+      .concat((storeAPI) => (next) => (action) => {
+        const result = next(action);
 
-store.subscribe(() => {
-  const state = store.getState();
-  AsyncStorage.setItem(
-    "customMaps",
-    JSON.stringify(state.userContent.customMaps)
-  );
+        if (createMap.match(action) || deleteMap.match(action)) {
+          storeAPI.dispatch(
+            saveCustomMapsToAsyncStorage(
+              storeAPI.getState().userContent.customMaps
+            )
+          );
+        }
+
+        return result;
+      }),
 });
 
 export default store;

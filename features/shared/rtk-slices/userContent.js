@@ -1,4 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+export const saveCustomMapsToAsyncStorage = createAsyncThunk(
+  "userContent/saveCustomMapsToAsyncStorage",
+  async (customMaps) => {
+    await AsyncStorage.setItem("customMaps", JSON.stringify(customMaps));
+  }
+);
 
 export const userContentSlice = createSlice({
   name: "userContent",
@@ -17,6 +25,11 @@ export const userContentSlice = createSlice({
     setMaps: (state, action) => {
       state.customMaps = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(saveCustomMapsToAsyncStorage.fulfilled, (state, action) => {
+      console.log("Saved custom maps to async storage");
+    });
   },
 });
 

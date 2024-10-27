@@ -1,13 +1,10 @@
 import { Provider } from "react-redux";
 import store from "./features/shared/rtk-store/store";
-import { createDrawerNavigator } from "@react-navigation/drawer";
 import AppWrapper from "./features/shared/components/AppWrapper";
 import { PaperProvider } from "react-native-paper";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import theme from "./features/shared/theme/theme";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-const Drawer = createDrawerNavigator();
 
 export default function App() {
   return (
