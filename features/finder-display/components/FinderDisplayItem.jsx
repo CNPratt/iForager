@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View, Image, DeviceEventEmitter } from "react-native";
 import { ActivityIndicator, Text } from "react-native-paper";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
@@ -17,8 +17,14 @@ export const FinderDisplayItem = ({ item }) => {
 
   const formattedDistance = distanceFormatter.format(item.distance);
 
+  const handlePressEvent = () => {
+    DeviceEventEmitter.emit("onMarkerSelect", item.id);
+
+    item.handlePress();
+  };
+
   return (
-    <TouchableOpacity onPress={item.handlePress}>
+    <TouchableOpacity onPress={handlePressEvent}>
       <View style={[styles.item, conditionalBorderStyle]}>
         <View style={styles.imageContainer}>
           {imageLoading && (

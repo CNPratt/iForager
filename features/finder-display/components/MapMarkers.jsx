@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from "react";
+import { DeviceEventEmitter } from "react-native";
 import { Marker } from "react-native-maps";
 
 const MapMarkers = ({ items, selectedMarker, onMarkerSelect = () => {} }) => {
   return items.map((item) => {
     return (
       <MapMarker
+        key={item.id}
         item={item}
         selectedMarker={selectedMarker}
         onMarkerSelect={onMarkerSelect}
@@ -22,10 +24,22 @@ const MapMarker = ({ item, selectedMarker, onMarkerSelect }) => {
   const zIndex = isSelected ? 100 : 0;
 
   useEffect(() => {
-    if (isSelected && ref.current) {
-      ref.current.showCallout();
-    }
-  }, [isSelected]);
+    // if (isSelected && ref.current) {
+    //   // ref.current.showCallout();
+    // }
+
+    const sub = DeviceEventEmitter.addListener("onMarkerSelect", (id) => {
+      if (id === item.id) {
+        if (ref.current) {
+          ref.current.showCallout();
+        }
+      }
+    });
+
+    return () => {
+      sub.remove();
+    };
+  }, []);
 
   return (
     <Marker
@@ -35,7 +49,11 @@ const MapMarker = ({ item, selectedMarker, onMarkerSelect }) => {
       coordinate={{ latitude: item.lat, longitude: item.lon }}
       pinColor={color}
       style={{ zIndex: zIndex }}
-      onSelect={() => onMarkerSelect(item.id)}
+      onSelect={() => {
+        if (!isSelected) {
+          onMarkerSelect(item.id);
+        }
+      }}
     />
   );
 };

@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { DeviceEventEmitter, StyleSheet, View } from "react-native";
 import { useFetchObservationsQuery } from "../../shared/api-slices/observationsApi";
 import { useSelector } from "react-redux";
 import FinderDisplayFlatList from "./FinderDisplayFlatList";
@@ -96,11 +96,12 @@ const FinderDisplay = ({ ids }) => {
           flatListRef.current.scrollToIndex({ index: index, animated: true });
         }
         if (mapRef.current) {
-          mapRef.current.animateToRegion({
-            latitude: selectedItem.lat,
-            longitude: selectedItem.lon,
-            // latitudeDelta: 0.01,
-            // longitudeDelta: 0.01,
+          mapRef.current.animateCamera({
+            center: {
+              latitude: selectedItem.lat,
+              longitude: selectedItem.lon,
+            },
+            zoom: 15,
           });
         }
       }

@@ -1,22 +1,28 @@
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import MapView, { Marker } from "react-native-maps";
 import MapMarkers from "./MapMarkers";
 import { PROVIDER_GOOGLE } from "react-native-maps";
+import { DeviceEventEmitter } from "react-native";
 
 const FinderDisplayMap = forwardRef(
   ({ listData, location, selectedId, setSelectedId }, ref) => {
     const mapRef = useRef(null);
 
     useImperativeHandle(ref, () => ({
-      animateToRegion: (region) => {
-        mapRef.current.animateToRegion(region);
+      animateCamera: (config) => {
+        mapRef.current.animateCamera(config);
       },
     }));
 
     return (
       <MapView
         ref={mapRef}
-        // Must switch to development build for this to work
+        // // Must switch to development build for this to work
         // provider={PROVIDER_GOOGLE}
         style={{ flex: 1 }}
         initialRegion={{
@@ -27,6 +33,7 @@ const FinderDisplayMap = forwardRef(
         }}
       >
         <Marker
+          key={"home"}
           title="Home"
           coordinate={{
             latitude: location.coords.latitude,
@@ -37,7 +44,10 @@ const FinderDisplayMap = forwardRef(
         <MapMarkers
           items={listData}
           selectedMarker={selectedId}
-          onMarkerSelect={(id) => setSelectedId(id)}
+          onMarkerSelect={(id) => {
+            console.log("Selected marker", id);
+            setSelectedId(id);
+          }}
         />
       </MapView>
     );
