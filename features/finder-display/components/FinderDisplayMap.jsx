@@ -25,13 +25,14 @@ const FinderDisplayMap = forwardRef(
         // // Must switch to development build for this to work
         provider={PROVIDER_GOOGLE}
         style={{ flex: 1 }}
-        initialCamera={{
-          center: {
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-          },
-          zoom: 12,
-        }}
+        // initialCamera={{
+        //   center: {
+        //     latitude: location.coords.latitude,
+        //     longitude: location.coords.longitude,
+        //   },
+        //   zoom: 12,
+        // }}
+        moveOnMarkerPress={false}
       >
         <Marker
           key={"home"}

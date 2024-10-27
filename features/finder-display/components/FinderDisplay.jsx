@@ -101,7 +101,6 @@ const FinderDisplay = ({ ids }) => {
               latitude: selectedItem.lat,
               longitude: selectedItem.lon,
             },
-            zoom: 15,
           });
         }
       }
